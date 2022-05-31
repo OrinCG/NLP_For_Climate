@@ -1,6 +1,7 @@
 import sys
 
 import fasttext
+import nltk
 import pandas
 
 # from gensim.models.fasttext import FastText
@@ -17,12 +18,14 @@ to train a supervised and unsupervised model on
 class Model:
 
     def generateUnSupModel(self):
-        climate_opin_csv = pandas.read_csv("BBCNEWS.201701.csv")
-        snippets = climate_opin_csv["Snippet"]
+        climate_opin_csv = pandas.read_csv("archive/BBCNEWS.201701.csv")
+        snippets = climate_opin_csv[["Snippet","Categories"]]
+        print(snippets)
         half = int(len(snippets)/2)
         snippets_t = snippets.iloc[:half,]
         self.snippets_v = snippets.iloc[half:len(snippets) - 1,]
         snippets_t.to_csv("training.txt", sep="\n", index=False)
+        #Add tokenising and stuff here
         return fasttext.FastText.train_unsupervised("training.txt")
 
     def __init__(self):
@@ -41,4 +44,5 @@ if __name__ == '__main__':
     m1.main()
     print(m1.model.words)
     print(m1.model.get_nearest_neighbors("climate"))
+    print(m1.model.labels)
 #    print(similarities.)
