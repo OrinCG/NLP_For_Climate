@@ -40,7 +40,7 @@ class Model:
         label_snip.to_csv("training.txt", sep="\n", index=False)
         #Add tokenising and stuff here
         #fasttext.supervised("training.txt","model.txt")
-        return fasttext.FastText.train_supervised("training.txt")
+        return fasttext.FastText.train_supervised("training.txt", lr=0.5, epoch=25, wordNgrams=2, bucket=200000, dim=50, loss='ova')
 
     def __init__(self):
         self.snippets_v = None
@@ -61,6 +61,6 @@ if __name__ == '__main__':
     print(m1.model.labels)
     print("-----------------------------------------------------------------------------------------")
     for prediction in m1.snippets_v:
-        print(prediction)
+       # print(prediction)
         print(m1.model.predict(prediction,3))
 #    print(similarities.)
